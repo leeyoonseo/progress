@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress Demo</title>
+
+    <link rel="stylesheet" href="./progressBar.css">
+</head>
+<body>
+    <h1>Demo</h1>
+    <div class="box-circle">
+        <h2>Circle</h2>
+
+        <div class="items">
+            <div class="pie_bg">
+                <div class="pie_wrap" data-deg="15">
+                    <div class="pie"></div>
+                    <div class="pie_shadow"></div>
+                    <div class="pie_pointer"><span></span></div>
+                </div>
+            </div>
+    
+            <div class="timer">15deg</div>
+        </div>
+
+        <div class="items">
+            <div class="pie_bg">
+                <div class="pie_wrap" data-deg="30">
+                    <div class="pie"></div>
+                    <div class="pie_shadow"></div>
+                    <div class="pie_pointer"><span></span></div>
+                </div>
+            </div>
+    
+            <div class="timer">15deg</div>
+        </div>
+    </div>
+    <div class="box-circle">
+        <h2>Linear</h2>
+    </div>
+
+<script
+src="https://code.jquery.com/jquery-3.5.1.js"
+integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+crossorigin="anonymous"></script>
+<script src="./progressBar.js"></script>
+<script>
+    
+    const circle = $('.box-circle .pie_wrap');
+
+    circle.map((_, o) => {
+        const deg = o.dataset.deg;
+
+        const progressBar = new ProgressBar();
+        progressBar.Circle.init({
+            element : o,
+
+        }).draw(deg);
+    });
+
+    
+</script>
+</body>
+</html>
