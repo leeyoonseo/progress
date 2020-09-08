@@ -24,7 +24,7 @@ ProgressBar.prototype.Circle = {
     constructor : ProgressBar,
 
     options : {
-        element : '.pie_wrap',
+        element : '.progress-circle',
     },
 
     init : function(options){
@@ -35,7 +35,7 @@ ProgressBar.prototype.Circle = {
         this.right;
 
         this.pointer = this.element.find('.pie_pointer');
-        this.progress = this.element.find('.pie');
+        this.progress = this.element.find('.circle');
 
         this.left = this.createHalfCircle();
         this.right = this.createHalfCircle();
@@ -87,67 +87,66 @@ ProgressBar.prototype.Circle = {
     },
 };
 
-// /**
-//  * Linear 로딩 바
-//  * @constructor ProgressBar
-//  * @param {Object} options 바 생성에 필요한 엘리먼트들
-//  */
-// ProgressBar.Linear = function(options){
-//     this.name = "ProgressBar.Linear";
+/**
+ * Linear 로딩 바
+ * @constructor ProgressBar
+ * @param {Object} options 바 생성에 필요한 엘리먼트들
+ */
+ProgressBar.prototype.Linear = {
+    constructor : ProgressBar,
 
-//     this.options = $.extend(true, {
-//         wrap : '.rec_box',
-//         progress : '.rec_bar_played',
-//         thumb : '.rec_bar_pointer',
-//         bar : '.rec_bar'
-//     }, options);
+    options : {
+        element : '.progress-linear',
+        // wrap : '.rec_box',
+        progress : '.playing',
+        thumb : '.linear_pointer',
+        bar : '.linear-bar'
+    },
 
-//     this.wrap = (typeof this.options.wrap === 'string') ? $(this.options.wrap) : this.options.wrap;
+    init : function(options){
+        console.log('init')
+        this.options = $.extend({}, this.options, options);
+        this.element = $(this.options.element);
 
-//     var isTouch = CheckBrowser.isTouchScreen;
-//     var progress = this.wrap.find(this.options.progress).get(0);
-//     var bar = this.wrap.find(this.options.bar);
-//     var thumbRadius = this.wrap.find(this.options.thumb).outerWidth() / 2;
+        this.progress = this.element.find(this.options.progress);
+        this.bar = this.element.find(this.options.bar);
+        this.thumbRadius = this.element.find(this.options.thumb).outerWidth() / 2;
 
-//     /**
-//      * 로딩 바 그리기
-//      * @issue 로딩 바 밖으로 포인터가 노출되는 문제로 바의 너비에서 포인터의 반지름을 제하기 위하여 값을 계산하여 리턴
-//      * @param {Number} currentW 그려져야할 width 값
-//      */
-//     this.draw = function(currentW){
-//         $(progress).width((currentW + thumbRadius) + 'px');
-//     };
+        return this;
+    },
 
-//     /**
-//      * 로딩 바 이벤트
-//      * @issue 로딩 바 밖으로 포인터가 노출되는 문제로 바의 너비에서 포인터의 반지름을 제하기 위하여 값을 계산하여 리턴
-//      * @param {Object} e 로딩 바 event
-//      * @param {Object} audio 제어 할 오디오
-//      */
-//     this.input = function(e, audio){
-//         if (audio.duration == 'Infinity') {
-//             return;
-//         }
-//         var theRealEvent = isTouch ? e.originalEvent.touches[0] : e;
-//         var x = (theRealEvent.pageX - $(bar).offset().left);
+    /**
+     * 로딩 바 그리기
+     * @issue 로딩 바 밖으로 포인터가 노출되는 문제로 바의 너비에서 포인터의 반지름을 제하기 위하여 값을 계산하여 리턴
+     * @param {Number} currentW 그려져야할 width 값
+     */
+    draw : function(data){
+        this.progress.width(data + '%');
 
-//         audio.currentTime = Math.round(audio.duration * x / $(bar).outerWidth());
-//     };
+        return this;
+    },
 
-//     this.reset = function(){
-//         this.draw(0);
-//     };
+    /**
+     * 로딩 바 이벤트
+     * @issue 로딩 바 밖으로 포인터가 노출되는 문제로 바의 너비에서 포인터의 반지름을 제하기 위하여 값을 계산하여 리턴
+     * @param {Object} e 로딩 바 event
+     * @param {Object} audio 제어 할 오디오
+     */
+    input : function(e, audio){
+        if (audio.duration == 'Infinity') {
+            return;
+        }
+        var theRealEvent = isTouch ? e.originalEvent.touches[0] : e;
+        var x = (theRealEvent.pageX - $(bar).offset().left);
 
-//     function init(){
-//         this.draw(0);
-//     }
+        audio.currentTime = Math.round(audio.duration * x / $(bar).outerWidth());
+        
+        return this;
+    },
 
-//     init.call(this);
+    reset : function(){
+        this.draw(0);
 
-//     return {
-//         el : this.element,
-//         draw : this.draw,
-//         input : this.input,
-//         reset : this.reset
-//     }
-// };
+        return this;
+    },
+};

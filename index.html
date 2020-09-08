@@ -5,39 +5,114 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Progress Demo</title>
 
+    <link rel="stylesheet" href="./index.css">
     <link rel="stylesheet" href="./progressBar.css">
 </head>
 <body>
     <h1>Demo</h1>
-    <div class="box-circle">
+    <div class="box box-circle">
         <h2>Circle</h2>
 
         <div class="items">
-            <div class="pie_bg">
-                <div class="pie_wrap" data-deg="15">
-                    <div class="pie"></div>
-                    <div class="pie_shadow"></div>
-                    <div class="pie_pointer"><span></span></div>
+            <div class="progress-circle" data-progress="30">
+                <div class="progress-circle-inner">
+                    <div class="circle"></div>
+                    <div class="circle-shadow"></div>
+                    <div class="circle-pointer"><span></span></div>
                 </div>
             </div>
     
-            <div class="timer">15deg</div>
+            <div class="data">
+                <span>30deg</span>
+            </div>
         </div>
 
         <div class="items">
-            <div class="pie_bg">
-                <div class="pie_wrap" data-deg="30">
-                    <div class="pie"></div>
-                    <div class="pie_shadow"></div>
-                    <div class="pie_pointer"><span></span></div>
+            <div class="progress-circle" data-progress="90">
+                <div class="progress-circle-inner">
+                    <div class="circle"></div>
+                    <div class="circle-shadow"></div>
+                    <div class="circle-pointer"><span></span></div>
                 </div>
             </div>
     
-            <div class="timer">15deg</div>
+            <div class="data">
+                <span>90deg</span>
+            </div>
+        </div>
+        
+        <div class="items">
+            <div class="progress-circle" data-progress="180">
+                <div class="progress-circle-inner">
+                    <div class="circle"></div>
+                    <div class="circle-shadow"></div>
+                    <div class="circle-pointer"><span></span></div>
+                </div>
+            </div>
+    
+            <div class="data">
+                <span>180deg</span>
+            </div>
+        </div>
+
+        <div class="items">
+            <div class="progress-circle" data-progress="360">
+                <div class="progress-circle-inner">
+                    <div class="circle"></div>
+                    <div class="circle-shadow"></div>
+                    <div class="circle-pointer"><span></span></div>
+                </div>
+            </div>
+    
+            <div class="data">
+                <span>360deg</span>
+            </div>
         </div>
     </div>
-    <div class="box-circle">
+
+    <div class="box box-Linear">
         <h2>Linear</h2>
+
+        <div class="items">
+            <div class="progress-linear" data-progress="30">
+                <div class="linear-bar">
+                    <span class="playing">
+                        <span class="linear_pointer"></span>
+                    </span>
+                </div>
+            </div>
+    
+            <div class="data">
+                <span>30%</span>
+            </div>
+        </div>
+        <div class="items">
+            <div class="progress-linear" data-progress="50">
+                <div class="linear-bar">
+                    <span class="playing">
+                        <span class="linear_pointer"></span>
+                    </span>
+                </div>
+            </div>
+    
+            <div class="data">
+                <span>50%</span>
+            </div>
+        </div>
+
+        <div class="items">
+            <div class="progress-linear" data-progress="100">
+                <div class="linear-bar">
+                    <span class="playing">
+                        <span class="linear_pointer"></span>
+                    </span>
+                </div>
+            </div>
+    
+            <div class="data">
+                <span>100%</span>
+            </div>
+        </div>
     </div>
 
 <script
@@ -46,17 +121,29 @@ integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
 crossorigin="anonymous"></script>
 <script src="./progressBar.js"></script>
 <script>
-    
-    const circle = $('.box-circle .pie_wrap');
+    const circle = $('.progress-circle');
 
     circle.map((_, o) => {
-        const deg = o.dataset.deg;
+        const { progress } = o.dataset;
 
         const progressBar = new ProgressBar();
         progressBar.Circle.init({
             element : o,
+        }).draw(progress);
+    });
 
-        }).draw(deg);
+    const linear = $('.progress-linear');
+
+    linear.map((_, o) => {
+        const { progress } = o.dataset;
+
+        const progressBar = new ProgressBar();
+        progressBar.Linear.init({
+            element : o,
+            progress : '.playing',
+            thumb : '.linear_pointer',
+            bar : '.linear-bar'
+        }).draw(progress);
     });
 
     
