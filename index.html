@@ -15,10 +15,10 @@
 
         <div class="items">
             <div class="progress-circle" data-progress="30">
-                <div class="progress-circle-inner">
-                    <div class="circle"></div>
-                    <div class="circle-shadow"></div>
-                    <div class="circle-pointer"><span></span></div>
+                <div class="progress-inner">
+                    <div class="progress"></div>
+                    <div class="progress-shadow"></div>
+                    <div class="progress-pointer"><span></span></div>
                 </div>
             </div>
     
@@ -29,10 +29,10 @@
 
         <div class="items">
             <div class="progress-circle" data-progress="90">
-                <div class="progress-circle-inner">
-                    <div class="circle"></div>
-                    <div class="circle-shadow"></div>
-                    <div class="circle-pointer"><span></span></div>
+                <div class="progress-inner">
+                    <div class="progress"></div>
+                    <div class="progress-shadow"></div>
+                    <div class="progress-pointer"><span></span></div>
                 </div>
             </div>
     
@@ -43,10 +43,10 @@
         
         <div class="items">
             <div class="progress-circle" data-progress="180">
-                <div class="progress-circle-inner">
-                    <div class="circle"></div>
-                    <div class="circle-shadow"></div>
-                    <div class="circle-pointer"><span></span></div>
+                <div class="progress-inner">
+                    <div class="progress"></div>
+                    <div class="progress-shadow"></div>
+                    <div class="progress-pointer"><span></span></div>
                 </div>
             </div>
     
@@ -57,10 +57,10 @@
 
         <div class="items">
             <div class="progress-circle" data-progress="360">
-                <div class="progress-circle-inner">
-                    <div class="circle"></div>
-                    <div class="circle-shadow"></div>
-                    <div class="circle-pointer"><span></span></div>
+                <div class="progress-inner">
+                    <div class="progress"></div>
+                    <div class="progress-shadow"></div>
+                    <div class="progress-pointer"><span></span></div>
                 </div>
             </div>
     
@@ -70,14 +70,14 @@
         </div>
     </div>
 
-    <div class="box box-Linear">
+    <div class="box box-linear">
         <h2>Linear</h2>
 
         <div class="items">
             <div class="progress-linear" data-progress="30">
-                <div class="linear-bar">
-                    <span class="playing">
-                        <span class="linear_pointer"></span>
+                <div class="progress-inner">
+                    <span class="progress">
+                        <span class="progress-pointer"></span>
                     </span>
                 </div>
             </div>
@@ -88,9 +88,9 @@
         </div>
         <div class="items">
             <div class="progress-linear" data-progress="50">
-                <div class="linear-bar">
-                    <span class="playing">
-                        <span class="linear_pointer"></span>
+                <div class="progress-inner">
+                    <span class="progress">
+                        <span class="progress-pointer"></span>
                     </span>
                 </div>
             </div>
@@ -102,9 +102,9 @@
 
         <div class="items">
             <div class="progress-linear" data-progress="100">
-                <div class="linear-bar">
-                    <span class="playing">
-                        <span class="linear_pointer"></span>
+                <div class="progress-inner">
+                    <span class="progress">
+                        <span class="progress-pointer"></span>
                     </span>
                 </div>
             </div>
@@ -115,38 +115,29 @@
         </div>
     </div>
 
-<script
-src="https://code.jquery.com/jquery-3.5.1.js"
-integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
-crossorigin="anonymous"></script>
+    <div>
+        <h2>Timer</h2>
+        <div class="box box-timer">
+            <div class="progress-circle">
+                <div class="progress-inner">
+                    <div class="progress"></div>
+                    <div class="progress-shadow"></div>
+                    <div class="progress-pointer"><span></span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="box box-timer">
+            <div class="progress-linear" data-progress="100">
+                <div class="progress-inner">
+                    <span class="progress">
+                        <span class="progress-pointer"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
 <script src="./progressBar.js"></script>
-<script>
-    const circle = $('.progress-circle');
-
-    circle.map((_, o) => {
-        const { progress } = o.dataset;
-
-        const progressBar = new ProgressBar();
-        progressBar.Circle.init({
-            element : o,
-        }).draw(progress);
-    });
-
-    const linear = $('.progress-linear');
-
-    linear.map((_, o) => {
-        const { progress } = o.dataset;
-
-        const progressBar = new ProgressBar();
-        progressBar.Linear.init({
-            element : o,
-            progress : '.playing',
-            thumb : '.linear_pointer',
-            bar : '.linear-bar'
-        }).draw(progress);
-    });
-
-    
-</script>
+<script src="./index.js"></script>
 </body>
 </html>

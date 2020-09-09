@@ -1,7 +1,14 @@
 @charset "utf-8";
 
-.box + .box{ margin-top:30px; }
-.items{ position:relative; display:inline-block; }
+.box + .box{ 
+    margin-top:30px; 
+}
+
+.items{ 
+    position:relative; 
+    display:inline-block; 
+}
+
 .box-circle .data{
     position:absolute;
     top:0;

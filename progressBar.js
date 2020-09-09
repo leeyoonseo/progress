@@ -1,152 +1,84 @@
-/**
- * 로딩 바 UI
- * @author Lee Yoon Seo (2019.09)
- * @version 1.0.0
- * @see CheckBrowser-2.0.0.js
- * @support Chrome | fireFox | Edge | Safari | Opera
- */
-window.ProgressBar = {
-    name : "ProgressBar",
-    version : "1.0.0",
-};
+class Progress {
 
-window.ProgressBar = function(){
-    this.name = "ProgressBar",
-    this.version = "1.0.0";
-};
+    name = "ProgressBar";
+    version ="1.0.0";
 
-/**
- * Circle 로딩 바
- * @constructor ProgressBar
- * @param {String} element circle이 그려질 부모 id나 class
- */
-ProgressBar.prototype.Circle = {
-    constructor : ProgressBar,
+    constructor(options){
+        const defaultOptions = {
+            element : '.progress-bar',
+        };
+        
+        this.options = {...defaultOptions, ...options};
+        this.element = this.options.element;
+        this.pointer = this.element.getElementsByClassName('progress-pointer')[0];
+        this.progress = this.element.getElementsByClassName('progress')[0];
+        
+    }
 
-    options : {
-        element : '.progress-circle',
-    },
-
-    init : function(options){
-        this.options = $.extend({}, this.options, options);
-        this.element = $(this.options.element);
-        this.progress;
-        this.left;
-        this.right;
-
-        this.pointer = this.element.find('.pie_pointer');
-        this.progress = this.element.find('.circle');
-
-        this.left = this.createHalfCircle();
-        this.right = this.createHalfCircle();
-
-        this.progress.empty().append([this.left, this.right]);
-
+    reset(){
         this.draw(0);
+        return this;
+    }
+
+    draw(percent){
+        this.progress.style.width = percent + '%';
+        return this;
+    }
+}
+
+class Circle extends Progress {
+    constructor(options){
+        super(options);
+
+        this.halfCircleLeft;
+        this.halfCircleRight;
+
+        this.setUp();
 
         return this;
-    },
+    }
 
-    draw : function(deg){
+    setUp(){
+        this.halfCircleLeft = this.getHalfCircle();
+        this.halfCircleRight = this.getHalfCircle();
+
+        this.progress.append(this.halfCircleLeft);
+        this.progress.append(this.halfCircleRight);
+
+        return this;
+    }
+
+    getHalfCircle(){
+        const half = document.createElement('div');
+        half.classList.add('half-circle');
+        half.style.transform = 'rotate(0)';
+
+        return half;
+    }
+
+    draw(deg){
         this.clipBoundary(deg);
         this.rotate(deg);
 
         return this;
-    },
+    }
 
-    reset : function(){
-        this.draw(0);
+    clipBoundary(deg){
+        const clipStyle = (deg > 180) ? 'rect(auto auto auto auto)' : 'rect(0 1em 1em 0.5em)';
+        this.progress.style.clip = clipStyle;
 
         return this;
-    },
-
-    createHalfCircle : function(){
-        return $('<div></div>').prop({'class' : 'half-circle'})
-                               .css({'transform' : 'rotate(0)'});
-    },
-
-    rotate : function(deg){
-        if(deg < 0) return;
-
-        this.left.css('transform', 'rotate('+ ((deg > 180) ? deg : 0) +'deg)');
-        this.right.css('transform', 'rotate('+ ((deg > 180) ? 180 : deg) + 'deg)');
-        this.pointer.css('transform', 'rotate('+ deg + 'deg');
+    }
+   
+    rotate(deg){
+        const leftDeg = (deg > 180) ? deg : 0;
+        const rightDeg = (deg > 180) ? 180 : deg;
+        const { halfCircleLeft, halfCircleRight, pointer } = this;
         
-        return this;
-    },
-
-    /**
-     * half-circle를 회전 시키기 위한 스타일을 추가하는 함수
-     * @param {Number} deg 회전 시키는 각도 값
-     */
-    clipBoundary : function(deg){
-        this.progress.css((deg > 180) ? {'clip': 'rect(auto auto auto auto)'} // full
-                                  : {'clip': 'rect(0 1em 1em 0.5em)'}); // half
-    
-        return this;
-    },
-};
-
-/**
- * Linear 로딩 바
- * @constructor ProgressBar
- * @param {Object} options 바 생성에 필요한 엘리먼트들
- */
-ProgressBar.prototype.Linear = {
-    constructor : ProgressBar,
-
-    options : {
-        element : '.progress-linear',
-        // wrap : '.rec_box',
-        progress : '.playing',
-        thumb : '.linear_pointer',
-        bar : '.linear-bar'
-    },
-
-    init : function(options){
-        console.log('init')
-        this.options = $.extend({}, this.options, options);
-        this.element = $(this.options.element);
-
-        this.progress = this.element.find(this.options.progress);
-        this.bar = this.element.find(this.options.bar);
-        this.thumbRadius = this.element.find(this.options.thumb).outerWidth() / 2;
+        halfCircleLeft.style.transform = 'rotate('+ leftDeg +'deg)';
+        halfCircleRight.style.transform = 'rotate('+ rightDeg +'deg)';
+        pointer.style.transform = 'rotate('+ deg +'deg)';
 
         return this;
-    },
-
-    /**
-     * 로딩 바 그리기
-     * @issue 로딩 바 밖으로 포인터가 노출되는 문제로 바의 너비에서 포인터의 반지름을 제하기 위하여 값을 계산하여 리턴
-     * @param {Number} currentW 그려져야할 width 값
-     */
-    draw : function(data){
-        this.progress.width(data + '%');
-
-        return this;
-    },
-
-    /**
-     * 로딩 바 이벤트
-     * @issue 로딩 바 밖으로 포인터가 노출되는 문제로 바의 너비에서 포인터의 반지름을 제하기 위하여 값을 계산하여 리턴
-     * @param {Object} e 로딩 바 event
-     * @param {Object} audio 제어 할 오디오
-     */
-    input : function(e, audio){
-        if (audio.duration == 'Infinity') {
-            return;
-        }
-        var theRealEvent = isTouch ? e.originalEvent.touches[0] : e;
-        var x = (theRealEvent.pageX - $(bar).offset().left);
-
-        audio.currentTime = Math.round(audio.duration * x / $(bar).outerWidth());
-        
-        return this;
-    },
-
-    reset : function(){
-        this.draw(0);
-
-        return this;
-    },
+    }
 };
