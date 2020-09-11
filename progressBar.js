@@ -9,10 +9,17 @@ class Progress {
         };
         
         this.options = {...defaultOptions, ...options};
-        this.element = this.options.element;
-        this.pointer = this.element.getElementsByClassName('progress-pointer')[0];
-        this.progress = this.element.getElementsByClassName('progress')[0];
         
+        let { element } = this.options;
+        
+        if(typeof element === 'string'){
+            element = document.querySelector(element);
+        } 
+
+
+        this.pointer = element.getElementsByClassName('progress-pointer')[0];
+        this.progress = element.getElementsByClassName('progress')[0];
+        this.element = element;
     }
 
     reset(){
