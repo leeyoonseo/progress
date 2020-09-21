@@ -16,9 +16,8 @@ class Progress {
             element = document.querySelector(element);
         } 
 
-
-        this.pointer = element.getElementsByClassName('progress-pointer')[0];
-        this.progress = element.getElementsByClassName('progress')[0];
+        this.pointer = element.querySelector('.progress-pointer') 
+        this.progress = element.querySelector('.progress');
         this.element = element;
     }
 
