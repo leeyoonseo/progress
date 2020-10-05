@@ -12,13 +12,13 @@
         "declaration": false,
         "esModuleInterop": true,
         "rootDir": "./",
-        "outDir": "dest",
+        "outDir": "dist",
 
         "sourceMap": true,
         "watch": true,
     },
     "include": [
-        "src/ts/*"
+        "src/*"
     ],
     "exclude": [
         "node_modules",
